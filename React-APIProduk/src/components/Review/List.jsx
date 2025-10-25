@@ -31,7 +31,7 @@ export default function List() {
     }).then((respone) => {
       if (respone.isConfirmed) {
         axios
-          .delete(`https://api-review-one.vercel.app/api/api/review/${id}`)
+          .delete(`https://api-produk-one.vercel.app/api/api/review/${id}`)
           .then((response) => {
             setReview(review.filter((f) => f.id !== id));
             Swal.fire("Deleted!", "Your data has been delete", "success");

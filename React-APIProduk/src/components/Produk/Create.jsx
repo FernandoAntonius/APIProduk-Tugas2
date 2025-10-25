@@ -7,7 +7,6 @@ export default function CreateProduk() {
   const [namaProduk, setNamaProduk] = useState("");
   const [kodeProduk, setKodeProduk] = useState("");
   const [deskripsiProduk, setDeskripsiProduk] = useState("");
-  const [rekomendasiProduk, setRekomendasiProduk] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -26,26 +25,47 @@ export default function CreateProduk() {
       return;
     }
 
+    if (kodeProduk.trim() == "") {
+      Swal.fire({
+        title: "Error!",
+        text: "Kode produk tidak bisa kosong",
+        icon: "error",
+      });
+      setError("Kode Produk is required");
+      return;
+    }
+
     try {
       const response = await axios
         .post("https://api-produk-one.vercel.app/api/api/produk", {
           nama: namaProduk,
           kode_produk: kodeProduk,
           deskripsi: deskripsiProduk,
-          rekomendasi: rekomendasiProduk,
         })
         .catch((error) => {
           Swal.fire({
             title: "Error!",
-            text: "Nama produk tidak bisa sama",
+            text: "Tidak bisa menambah produk!",
             icon: "error",
           });
           setError(error.response.data.message);
         });
       if (response.status === 201) {
+        Swal.fire({
+          title: "Success!",
+          text: "Berhasil menambah produk!",
+          icon: "success",
+        });
         setSuccess("Produk created successfully!");
         setNamaProduk("");
+        setKodeProduk("");
+        setDeskripsiProduk("");
       } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Tidak bisa menambah produk!",
+          icon: "error",
+        });
         setError("Failed to create produk");
       }
     } catch (error) {}
@@ -96,19 +116,6 @@ export default function CreateProduk() {
             value={deskripsiProduk}
             onChange={(e) => setDeskripsiProduk(e.target.value)}
             placeholder="Enter Produk Deskripsi"
-          />
-
-          {/* Rekomendasi Produk */}
-          <label htmlFor="rekomendasiProduk" className="form-label">
-            Rekomendasi Produk
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="rekomendasiProduk"
-            value={rekomendasiProduk}
-            onChange={(e) => setRekomendasiProduk(e.target.value)}
-            placeholder="Enter Produk Rekomendasi"
           />
         </div>
 

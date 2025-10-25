@@ -48,6 +48,16 @@ export default function CreateReview() {
       return;
     }
 
+    if (kodeReview.trim() === "") {
+      Swal.fire({
+        title: "Error!",
+        text: "Kode review tidak bisa kosong",
+        icon: "error",
+      });
+      setError("Kode review is required");
+      return;
+    }
+
     if (kodeProduk.trim() === "") {
       Swal.fire({
         title: "Error!",
@@ -70,15 +80,29 @@ export default function CreateReview() {
         .catch((error) => {
           Swal.fire({
             title: "Error!",
-            text: "Nama review tidak bisa sama",
+            text: "Tidak dapat menambah review!",
             icon: "error",
           });
           setError(error.response.data.message);
         });
       if (response.status === 201) {
+        Swal.fire({
+          title: "Success!",
+          text: "Berhasil menambah review!",
+          icon: "success",
+        });
         setSuccess("Review created successfully!");
         setNamaReview("");
+        setKodeProduk("");
+        setDeskripsiReview("");
+        setRekomendasiReview("");
+        setKodeProduk("");
       } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Tidak dapat menambah review!",
+          icon: "error",
+        });
         setError("Failed to create review");
       }
     } catch (error) {}
