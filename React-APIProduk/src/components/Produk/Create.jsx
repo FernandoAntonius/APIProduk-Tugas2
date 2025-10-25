@@ -58,6 +58,7 @@ export default function CreateProduk() {
       {success && <div className="alert alert-success">{success}</div>}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
+          <hr />
           {/* Nama Produk */}
           <label htmlFor="namaProduk" className="form-label">
             Nama Produk
