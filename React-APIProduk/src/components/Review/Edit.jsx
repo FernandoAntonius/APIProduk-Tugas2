@@ -7,15 +7,25 @@ import Swal from "sweetalert2";
 export default function Edit() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [nama, setNama] = useState("");
+  const [namaReview, setNamaReview] = useState("");
+  const [kodeReview, setKodeReview] = useState("");
+  const [deskripsiReview, setDeskripsiReview] = useState("");
+  const [rekomendasiReview, setRekomendasiReview] = useState("");
+  const [kodeProduk, setKodeProduk] = useState("");
+  const [ProdukList, setProdukList] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     axios
-      .get(`https://project-apiif-3-b.vercel.app/api/api/fakultas/${id}`)
+      .get(`https://api-produk-one.vercel.app/api/api/review/${id}`)
       .then((response) => {
+        const data = response.data;
         console.log(response);
-        setNama(response.data.result.nama);
+        setNamaReview(data.nama || "");
+        setKodeReview(data.kode_review || "");
+        setDeskripsiReview(data.deskripsi || "");
+        setRekomendasiReview(data.rekomendasi || "");
+        setKodeProduk(data.produks_id || "");
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -23,72 +33,208 @@ export default function Edit() {
       });
   }, [id]);
 
+  useEffect(() => {
+    const fetchProduk = async () => {
+      try {
+        const response = await axios.get(
+          "https://api-produk-one.vercel.app/api/api/produk"
+        );
+        setProdukList(response.data);
+      } catch (error) {
+        console.error("Error fetch data produk:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "Error fetch daftar produk",
+          icon: "error",
+        });
+      }
+    };
+
+    fetchProduk();
+  }, []);
+
   const handleChange = (e) => {
-    setNama(e.target.value);
+    const { id, value } = e.target;
+    switch (id) {
+      case "namaReview":
+        setNamaReview(value);
+        break;
+      case "kodeReview":
+        setKodeReview(value);
+        break;
+      case "deskripsiReview":
+        setDeskripsiReview(value);
+        break;
+      case "rekomendasiReview":
+        setRekomendasiReview(value);
+        break;
+      case "kodeProduk":
+        setKodeProduk(value);
+        break;
+      default:
+        break;
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (nama.trim() == "") {
-      setError("Nama Fakultas is required");
+    if (namaReview.trim() == "") {
       Swal.fire({
         title: "Error!",
-        text: "Fakultas name cannot be empty",
+        text: "Nama review tidak bisa kosong",
         icon: "error",
       });
+      setError("Nama Review is required");
+      return;
+    }
+
+    if (kodeReview.trim() === "") {
+      Swal.fire({
+        title: "Error!",
+        text: "Kode review tidak bisa kosong",
+        icon: "error",
+      });
+      setError("Kode review is required");
+      return;
+    }
+
+    if (kodeProduk.trim() === "") {
+      Swal.fire({
+        title: "Error!",
+        text: "Kode produk tidak bisa kosong",
+        icon: "error",
+      });
+      setError("Kode produk is required");
       return;
     }
 
     try {
       const response = await axios.patch(
-        `https://project-apiif-3-b.vercel.app/api/api/fakultas/${id}`,
+        `https://api-produk-one.vercel.app/api/api/review/${id}`,
         {
-          nama,
+          nama: namaReview,
+          kode_review: kodeReview,
+          deskripsi: deskripsiReview,
+          rekomendasi: rekomendasiReview,
+          produks_id: kodeProduk,
         }
       );
       if (response.status === 200) {
         Swal.fire({
           title: "Success!",
-          text: "Fakultas updated successfully",
+          text: "Review updated successfully",
           icon: "success",
         });
-        navigate("/fakultas");
+        navigate("/review");
       } else {
         Swal.fire({
           title: "Error!",
-          text: "Fakultas cannot be updated",
+          text: "Review cannot be updated",
           icon: "error",
         });
-        setError("Failed to edit fakultas");
+        console.log(error);
+        setError("Failed to edit review");
       }
     } catch (error) {
       Swal.fire({
         title: "Error!",
-        text: "Fakultas cannot be updated",
+        text: "Review cannot be updated",
         icon: "error",
       });
-      setError("An error occured while editing fakultas");
+      console.log(error);
+      setError("An error occured while editing review");
     }
   };
 
   return (
     <div>
-      <h2>Edit Fakultas</h2>
+      <h2>Edit Review</h2>
+
       {error && <p className="text-danger">{error}</p>}
+      <hr />
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="nama" className="form-label">
-            Nama Fakultas
+          <label htmlFor="namaReview" className="form-label">
+            Nama Review
           </label>
           <input
             type="text"
-            id="nama"
+            id="namaReview"
             className="form-control"
-            value={nama}
+            value={namaReview}
             onChange={handleChange}
-            placeholder="Enter Fakultas Nama"
+            placeholder="Enter Nama Review"
           />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="kodeReview" className="form-label">
+            Kode Review
+          </label>
+          <input
+            type="text"
+            id="kodeReview"
+            className="form-control"
+            value={kodeReview}
+            onChange={handleChange}
+            placeholder="Enter Kode Review"
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="deskripsiReview" className="form-label">
+            Deskripsi Review
+          </label>
+          <input
+            type="text"
+            id="deskripsiReview"
+            className="form-control"
+            value={deskripsiReview}
+            onChange={handleChange}
+            placeholder="Enter Deskripsi Review"
+          />
+          <div className="mb-3">
+            <label htmlFor="rekomendasiReview" className="form-label">
+              Rekomendasi
+            </label>
+            <input
+              type="text"
+              id="rekomendasiReview"
+              className="form-control"
+              value={rekomendasiReview}
+              onChange={handleChange}
+              placeholder="Enter Rekomendasi Review"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="kodeProduk" className="form-label">
+              Produk
+            </label>
+            <select
+              id="kodeProduk"
+              className="form-select"
+              value={kodeProduk}
+              onChange={(e) => setKodeProduk(e.target.value)}>
+              <option value="">Select Produk</option>
+              {ProdukList.map((produk) => (
+                <option key={produk.id} value={produk.id}>
+                  {produk.nama}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* <div className="mb-3">
+            <label htmlFor="rekomendasiReview" className="form-label">
+              Rekomendasi
+            </label>
+            <input
+              type="text"
+              id="rekomendasiReview"
+              className="form-control"
+              value={rekomendasi}
+              onChange={handleChange}
+              placeholder="Enter Kode Produk"
+            />
+          </div> */}
         </div>
         <button type="submit" className="btn btn-primary">
           Save
