@@ -109,86 +109,105 @@ export default function CreateReview() {
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Create Review</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
-      {success && <div className="alert alert-success">{success}</div>}
+    <div className="container-fluid px-4 py-4">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h4 className="fw-bold mb-1">Tambah Review</h4>
+          <p className="text-muted mb-0">Untuk menambahakan review</p>
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit}>
+        {/* Nama Review */}
         <div className="mb-3">
-          <hr />
-          {/* Nama Review */}
           <label htmlFor="namaReview" className="form-label">
-            Nama Review
+            <strong>Nama Review</strong>
           </label>
           <input
             type="text"
             className="form-control"
             id="namaReview"
+            placeholder="Nama reviewan"
             value={namaReview}
             onChange={(e) => setNamaReview(e.target.value)}
-            placeholder="Enter Review Name"
           />
+        </div>
 
-          {/* Kode Review */}
+        {/* Kode Review */}
+        <div className="mb-3">
           <label htmlFor="kodeReview" className="form-label">
-            Kode Review
+            <strong>Kode Review</strong>
           </label>
           <input
             type="text"
             className="form-control"
             id="kodeReview"
+            placeholder="Kode review"
             value={kodeReview}
             onChange={(e) => setKodeReview(e.target.value)}
-            placeholder="Enter Review Kode"
           />
-
-          {/* Deskripsi Review */}
-          <label htmlFor="deskripsiReview" className="form-label">
-            Deskripsi Review
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="deskripsiReview"
-            value={deskripsiReview}
-            onChange={(e) => setDeskripsiReview(e.target.value)}
-            placeholder="Enter Review Deskripsi"
-          />
-
-          {/* Rekomendasi Review */}
-          <label htmlFor="rekomendasiReview" className="form-label">
-            Rekomendasi Review
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="rekomendasiReview"
-            value={rekomendasiReview}
-            onChange={(e) => setRekomendasiReview(e.target.value)}
-            placeholder="Enter Review Rekomendasi"
-          />
-
-          {/* Kode Produk */}
-          <div className="mb-3">
-            <label className="form-label">Produk</label>
-            <select
-              className="form-select"
-              id="kodeProduk"
-              value={kodeProduk}
-              onChange={(e) => setKodeProduk(e.target.value)}>
-              <option value="">Select Produk</option>
-              {ProdukList.map((produk) => (
-                <option key={produk.id} value={produk.id}>
-                  {produk.nama}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
 
-        <button type="submit" className="btn btn-primary">
-          Create
-        </button>
+        {/* Deskripsi Review */}
+        <div className="mb-3">
+          <label htmlFor="deskripsiReview" className="form-label">
+            <strong>Isi Review</strong>
+          </label>
+          <textarea
+            className="form-control"
+            id="deskripsiReview"
+            rows="3"
+            placeholder="Isi review produk"
+            value={deskripsiReview}
+            onChange={(e) => setDeskripsiReview(e.target.value)}></textarea>
+        </div>
+
+        {/* Rekomendasi Review */}
+        <div className="mb-3">
+          <label htmlFor="rekomendasiReview" className="form-label">
+            <strong>Merekomendasi</strong>
+          </label>
+          <select
+            className="form-control"
+            id="rekomendasiReview"
+            placeholder="Produk terekomendasi"
+            value={rekomendasiReview}
+            onChange={(e) => setRekomendasiReview(e.target.value)}>
+            <option value="">Ya atau Tidak</option>
+            <option value="1">Ya</option>
+            <option value="0">Tidak</option>
+          </select>
+        </div>
+
+        {/* Produk */}
+        <div className="mb-4">
+          <label htmlFor="kodeProduk" className="form-label">
+            <strong>Produk</strong>
+          </label>
+          <select
+            className="form-select"
+            id="kodeProduk"
+            value={kodeProduk}
+            onChange={(e) => setKodeProduk(e.target.value)}>
+            <option value="">Pilih Produk</option>
+            {ProdukList.map((produk) => (
+              <option key={produk.id} value={produk.id}>
+                {produk.nama}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Tombol Submit */}
+        <div className="d-grid">
+          <center>
+            <button
+              type="submit"
+              className="btn btn-outline-primary btn-md w-25">
+              Create
+            </button>
+          </center>
+        </div>
       </form>
     </div>
   );
