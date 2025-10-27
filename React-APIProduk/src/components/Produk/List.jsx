@@ -45,39 +45,58 @@ export default function List() {
   };
 
   return (
-    <div>
-      <h2>List produk</h2>
-      <NavLink to="/produk/create" className="btn btn-primary mb-3">
-        Create
-      </NavLink>
+    <div className="container-fluid py-4">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h4 className="fw-bold">List Produk</h4>
+          <p className="text-muted mb-0">Untuk melihat dan mengelola produk</p>
+        </div>
+        <NavLink to="/produk/create" className="btn btn-primary">
+          Tambah Produk
+        </NavLink>
+      </div>
 
-      <table className="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th>Nama Produk</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {produk.map((data) => (
-            <tr key={data.id}>
-              <td>{data.nama}</td>
-              <td>
-                <button
-                  onClick={() => handleDelete(data.id, data.nama)}
-                  className="btn btn-danger btn-sm me-2">
-                  Hapus
-                </button>
-                <NavLink
-                  to={`/produk/edit/${data.id}`}
-                  className="btn btn-warning btn-sm">
-                  Ubah
-                </NavLink>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="card border-0 shadow-sm">
+        <div className="card-body p-0">
+          <table className="table table-hover align-middle mb-0">
+            <thead className="table-light">
+              <tr>
+                <th>Nomor</th>
+                <th>Nama Produk</th>
+                <th>Kode Produk</th>
+                <th>Deskripsi</th>
+                <th>Dibuat</th>
+                <th>Diperbarui</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {produk.map((data, index) => (
+                <tr key={data.id}>
+                  <td>{index + 1}</td>
+                  <td>{data.nama}</td>
+                  <td>{data.kode_produk}</td>
+                  <td>{data.deskripsi}</td>
+                  <td>{new Date(data.created_at).toLocaleString()}</td>
+                  <td>{new Date(data.updated_at).toLocaleString()}</td>
+                  <td>
+                    <NavLink
+                      to={`/produk/edit/${data.id}`}
+                      className="btn btn-outline-warning btn-sm me-2">
+                      Edit
+                    </NavLink>
+                    <button
+                      onClick={() => handleDelete(data.id, data.nama)}
+                      className="btn btn-outline-danger btn-sm">
+                      Hapus
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }
