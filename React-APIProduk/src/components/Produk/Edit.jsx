@@ -8,7 +8,6 @@ export default function Edit() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [namaProduk, setNamaProduk] = useState("");
-  const [kodeProduk, setKodeProduk] = useState("");
   const [deskripsiProduk, setDeskripsiProduk] = useState("");
   const [error, setError] = useState(null);
 
@@ -19,7 +18,6 @@ export default function Edit() {
         const data = response.data;
         console.log(response);
         setNamaProduk(data.nama || "");
-        setKodeProduk(data.kode_produk || "");
         setDeskripsiProduk(data.deskripsi || "");
       })
       .catch((error) => {
@@ -33,9 +31,6 @@ export default function Edit() {
     switch (id) {
       case "namaProduk":
         setNamaProduk(value);
-        break;
-      case "kodeProduk":
-        setKodeProduk(value);
         break;
       case "deskripsiProduk":
         setDeskripsiProduk(value);
@@ -125,19 +120,6 @@ export default function Edit() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="kodeProduk" className="form-label">
-            Kode Produk
-          </label>
-          <input
-            type="text"
-            id="kodeProduk"
-            className="form-control"
-            value={kodeProduk}
-            onChange={handleChange}
-            placeholder="Enter Kode Produk"
-          />
-        </div>
-        <div className="mb-3">
           <label htmlFor="deskripsiProduk" className="form-label">
             Deskripsi Produk
           </label>
@@ -151,7 +133,7 @@ export default function Edit() {
           />
         </div>
         <button type="submit" className="btn btn-primary">
-          Save
+          Simpan
         </button>
       </form>
     </div>
