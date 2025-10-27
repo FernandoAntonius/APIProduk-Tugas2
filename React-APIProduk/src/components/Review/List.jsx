@@ -64,7 +64,16 @@ export default function List() {
                 <h5 className="fw-semibold mb-0">{data.nama}</h5>
                 <div className="s">{data.kode_review}</div>
               </div>
-              <p className="text-muted flex-grow-1">{data.deskripsi}</p>
+              <p
+                className="text-muted flex-grow-1"
+                style={{
+                  textAlign: "justify",
+                  minHeight: 100,
+                  maxHeight: 100,
+                  overflow: "hidden",
+                }}>
+                {data.deskripsi}
+              </p>
               <div className="small text-secondary mb-2">
                 <div>
                   <strong>Nama Produk:</strong>{" "}
