@@ -58,10 +58,10 @@ export default function List() {
 
       <div className="card border-0 shadow-sm">
         <div className="card-body p-0">
-          <table className="table table-hover align-middle mb-0">
+          <table className="table table-bordered align-middle mb-0">
             <thead className="table-light">
               <tr>
-                <th>Nomor</th>
+                <th>No</th>
                 <th>Nama Produk</th>
                 <th>Kode Produk</th>
                 <th>Deskripsi</th>
@@ -73,10 +73,17 @@ export default function List() {
             <tbody>
               {produk.map((data, index) => (
                 <tr key={data.id}>
-                  <td>{index + 1}</td>
+                  <td>{index + 1}.</td>
                   <td>{data.nama}</td>
                   <td>{data.kode_produk}</td>
-                  <td>{data.deskripsi}</td>
+                  <td
+                    style={{
+                      textAlign: "justify",
+                      maxWidth: "450px",
+                      overflow: "hidden",
+                    }}>
+                    {data.deskripsi}
+                  </td>
                   <td>{new Date(data.created_at).toLocaleString()}</td>
                   <td>{new Date(data.updated_at).toLocaleString()}</td>
                   <td>
