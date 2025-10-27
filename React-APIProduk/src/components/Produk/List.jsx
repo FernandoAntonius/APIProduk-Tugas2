@@ -21,7 +21,7 @@ export default function List() {
   const handleDelete = (id, nama) => {
     Swal.fire({
       title: "Periksa kembali",
-      text: `Apakah kamu yakin ingin menghapus data! produk: ${nama}`,
+      text: `Apakah kamu yakin ingin menghapus data produk ${nama}`,
       icon: "warning",
       showCancelButton: true,
       confirmedButtonColor: "#3085d6",
@@ -34,18 +34,18 @@ export default function List() {
           .delete(`https://api-produk-one.vercel.app/api/api/produk/${id}`)
           .then((response) => {
             setProduk(produk.filter((f) => f.id !== id));
-            Swal.fire("Deleted!", "Your data has been delete", "success");
+            Swal.fire("Berhasil!", "Produk berhasil dihapus", "success");
           })
           .catch((error) => {
             console.error("Error deleting data:", error);
-            Swal.fire("Error", "There was an issue deleting the data", "error");
+            Swal.fire("Error", "Terdapat kendala menghapus produk", "error");
           });
       }
     });
   };
 
   return (
-    <div className="container-fluid py-4">
+    <div className="container-fluid py-4 px-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div>
           <h4 className="fw-bold">List Produk</h4>
