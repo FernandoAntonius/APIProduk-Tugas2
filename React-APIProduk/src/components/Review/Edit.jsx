@@ -183,7 +183,7 @@ export default function Edit() {
             className="form-control"
             value={kodeReview}
             onChange={handleChange}
-            placeholder="Kode Review"
+            placeholder="Kode Review cth: RW000"
           />
         </div>
 
@@ -198,7 +198,7 @@ export default function Edit() {
             className="form-control"
             value={deskripsiReview}
             onChange={handleChange}
-            placeholder="Enter Deskripsi Review"
+            placeholder="Deskripsi Review"
           />
 
           {/* Rekomendasi */}
