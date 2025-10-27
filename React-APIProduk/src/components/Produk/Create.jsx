@@ -72,56 +72,69 @@ export default function CreateProduk() {
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Create Produk</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
-      {success && <div className="alert alert-success">{success}</div>}
+    <div className="container-fluid px-4 py-4">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h4 className="fw-bold mb-1">Tambah Produk</h4>
+          <p className="text-muted mb-0">Untuk menambahkan produk</p>
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit}>
+        {/* Nama Produk */}
         <div className="mb-3">
-          <hr />
-          {/* Nama Produk */}
           <label htmlFor="namaProduk" className="form-label">
-            Nama Produk
+            <strong>Nama Produk</strong>
           </label>
           <input
             type="text"
             className="form-control"
             id="namaProduk"
+            placeholder="Nama Produk"
             value={namaProduk}
             onChange={(e) => setNamaProduk(e.target.value)}
-            placeholder="Enter Produk Name"
           />
+        </div>
 
-          {/* Kode Produk */}
+        {/* Kode Produk */}
+        <div className="mb-3">
           <label htmlFor="kodeProduk" className="form-label">
-            Kode Produk
+            <strong>Kode Produk</strong>
           </label>
           <input
             type="text"
             className="form-control"
             id="kodeProduk"
+            placeholder="Kode Produk"
             value={kodeProduk}
             onChange={(e) => setKodeProduk(e.target.value)}
-            placeholder="Enter Produk Kode"
-          />
-
-          {/* Deskripsi Produk */}
-          <label htmlFor="deskripsiProduk" className="form-label">
-            Deskripsi Produk
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="deskripsiProduk"
-            value={deskripsiProduk}
-            onChange={(e) => setDeskripsiProduk(e.target.value)}
-            placeholder="Enter Produk Deskripsi"
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">
-          Create
-        </button>
+        {/* Deskripsi Produk */}
+        <div className="mb-4">
+          <label htmlFor="deskripsiProduk" className="form-label">
+            <strong>Deskripsi Produk</strong>
+          </label>
+          <textarea
+            className="form-control"
+            id="deskripsiProduk"
+            rows="3"
+            placeholder="Deskripsi Produk"
+            value={deskripsiProduk}
+            onChange={(e) => setDeskripsiProduk(e.target.value)}></textarea>
+        </div>
+
+        {/* Tombol Submit */}
+        <div className="d-grid">
+          <center>
+            <button
+              type="submit"
+              className="btn btn-outline-primary btn-md w-25">
+              Create
+            </button>
+          </center>
+        </div>
       </form>
     </div>
   );
