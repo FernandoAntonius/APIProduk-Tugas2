@@ -8,6 +8,7 @@ export default function Edit() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [namaProduk, setNamaProduk] = useState("");
+  const [kodeProduk, setKodeProduk] = useState("");
   const [deskripsiProduk, setDeskripsiProduk] = useState("");
   const [error, setError] = useState(null);
 
@@ -18,6 +19,7 @@ export default function Edit() {
         const data = response.data;
         console.log(response);
         setNamaProduk(data.nama || "");
+        setKodeProduk(data.kode_produk || "");
         setDeskripsiProduk(data.deskripsi || "");
       })
       .catch((error) => {
@@ -31,6 +33,9 @@ export default function Edit() {
     switch (id) {
       case "namaProduk":
         setNamaProduk(value);
+        break;
+      case "kodeProduk":
+        setKodeProduk(value);
         break;
       case "deskripsiProduk":
         setDeskripsiProduk(value);
@@ -94,21 +99,29 @@ export default function Edit() {
         text: "Produk cannot be updated",
         icon: "error",
       });
-      console.log(error);
+      console.log({
+        nama: namaProduk,
+        kode_produk: kodeProduk,
+        deskripsi: deskripsiProduk,
+      });
       setError("An error occured while editing produk");
     }
   };
 
   return (
-    <div>
-      <h2>Edit Produk</h2>
+    <div className="container-fluid px-4 py-4">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h4 className="fw-bold mb-1">Edit Produk</h4>
+          <p className="text-muted mb-0">Untuk edit produk</p>
+        </div>
+      </div>
 
-      {error && <p className="text-danger">{error}</p>}
-      <hr />
       <form onSubmit={handleSubmit}>
+        {/* Nama Produk */}
         <div className="mb-3">
           <label htmlFor="namaProduk" className="form-label">
-            Nama Produk
+            <strong>Nama Produk</strong>
           </label>
           <input
             type="text"
@@ -116,25 +129,49 @@ export default function Edit() {
             className="form-control"
             value={namaProduk}
             onChange={handleChange}
-            placeholder="Enter Nama Produk"
+            placeholder="Nama Produk"
           />
         </div>
+
+        {/* Kode Produk */}
         <div className="mb-3">
-          <label htmlFor="deskripsiProduk" className="form-label">
-            Deskripsi Produk
+          <label htmlFor="kodeProduk" className="form-label">
+            <strong>Kode Produk</strong>
           </label>
           <input
             type="text"
-            id="deskripsiProduk"
+            id="kodeProduk"
             className="form-control"
-            value={deskripsiProduk}
+            value={kodeProduk}
             onChange={handleChange}
-            placeholder="Enter Deskripsi Produk"
+            placeholder="Kode Produk, cth: PR000"
           />
         </div>
-        <button type="submit" className="btn btn-primary">
-          Simpan
-        </button>
+
+        {/* Deskripsi Produk */}
+        <div className="mb-4">
+          <label htmlFor="deskripsiProduk" className="form-label">
+            <strong>Deskripsi Produk</strong>
+          </label>
+          <textarea
+            id="deskripsiProduk"
+            className="form-control"
+            rows="3"
+            value={deskripsiProduk}
+            onChange={handleChange}
+            placeholder="Deskripsi Produk"></textarea>
+        </div>
+
+        {/* Tombol Submit */}
+        <div className="d-grid">
+          <center>
+            <button
+              type="submit"
+              className="btn btn-outline-primary btn-md w-25">
+              Simpan
+            </button>
+          </center>
+        </div>
       </form>
     </div>
   );

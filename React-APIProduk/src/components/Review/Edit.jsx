@@ -8,6 +8,7 @@ export default function Edit() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [namaReview, setNamaReview] = useState("");
+  const [kodeReview, setKodeReview] = useState("");
   const [deskripsiReview, setDeskripsiReview] = useState("");
   const [rekomendasiReview, setRekomendasiReview] = useState("");
   const [kodeProduk, setKodeProduk] = useState("");
@@ -21,6 +22,7 @@ export default function Edit() {
         const data = response.data;
         console.log(response);
         setNamaReview(data.nama || "");
+        setKodeReview(data.kode_review || "");
         setDeskripsiReview(data.deskripsi || "");
         setRekomendasiReview(data.rekomendasi || "");
         setKodeProduk(data.produks_id || "");
@@ -56,6 +58,9 @@ export default function Edit() {
     switch (id) {
       case "namaReview":
         setNamaReview(value);
+        break;
+      case "kodeReview":
+        setKodeReview(value);
         break;
       case "deskripsiReview":
         setDeskripsiReview(value);
@@ -109,6 +114,7 @@ export default function Edit() {
         `https://api-produk-one.vercel.app/api/api/review/${id}`,
         {
           nama: namaReview,
+          kode_review: kodeReview,
           deskripsi: deskripsiReview,
           rekomendasi: rekomendasiReview,
           produks_id: kodeProduk,
@@ -142,12 +148,16 @@ export default function Edit() {
   };
 
   return (
-    <div>
-      <h2>Edit Review</h2>
+    <div className="container-fluid px-4 py-4">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h4 className="fw-bold mb-1">Edit Review</h4>
+          <p className="text-muted mb-0">Untuk edit review</p>
+        </div>
+      </div>
 
-      {error && <p className="text-danger">{error}</p>}
-      <hr />
       <form onSubmit={handleSubmit}>
+        {/* Nama review */}
         <div className="mb-3">
           <label htmlFor="namaReview" className="form-label">
             Nama Review
@@ -158,9 +168,26 @@ export default function Edit() {
             className="form-control"
             value={namaReview}
             onChange={handleChange}
-            placeholder="Enter Nama Review"
+            placeholder="Nama Review"
           />
         </div>
+
+        {/* Kode review */}
+        <div className="mb-3">
+          <label htmlFor="kodeReview" className="form-label">
+            Kode Review
+          </label>
+          <input
+            type="text"
+            id="kodeReview"
+            className="form-control"
+            value={kodeReview}
+            onChange={handleChange}
+            placeholder="Kode Review"
+          />
+        </div>
+
+        {/* Deskripsi review */}
         <div className="mb-3">
           <label htmlFor="deskripsiReview" className="form-label">
             Deskripsi Review
@@ -173,19 +200,25 @@ export default function Edit() {
             onChange={handleChange}
             placeholder="Enter Deskripsi Review"
           />
+
+          {/* Rekomendasi */}
           <div className="mb-3">
             <label htmlFor="rekomendasiReview" className="form-label">
               Rekomendasi
             </label>
-            <input
-              type="text"
-              id="rekomendasiReview"
+            <select
               className="form-control"
+              id="rekomendasiReview"
+              placeholder="Produk terekomendasi"
               value={rekomendasiReview}
-              onChange={handleChange}
-              placeholder="Enter Rekomendasi Review"
-            />
+              onChange={(e) => setRekomendasiReview(e.target.value)}>
+              <option value="">Ya atau Tidak</option>
+              <option value="1">Ya</option>
+              <option value="0">Tidak</option>
+            </select>
           </div>
+
+          {/* SSelect Produk */}
           <div className="mb-3">
             <label htmlFor="kodeProduk" className="form-label">
               Produk
@@ -204,9 +237,15 @@ export default function Edit() {
             </select>
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">
-          Simpan
-        </button>
+        <div className="d-grid">
+          <center>
+            <button
+              type="submit"
+              className="btn btn-outline-primary btn-md w-25">
+              Simpan
+            </button>
+          </center>
+        </div>
       </form>
     </div>
   );
