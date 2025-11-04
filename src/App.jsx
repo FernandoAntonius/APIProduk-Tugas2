@@ -1,10 +1,14 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   NavLink,
 } from "react-router-dom";
+// import Loader from "./components/Loader"; // Loader Component
+import ProtectedRoute from "./components/ProtectedRoute"; // ProtectedRoute Component
+import Logout from "./components/Logout";
+import Loader from "./components/Loader";
 
 const Home = React.lazy(() => import("./components/Home"));
 const ProdukList = React.lazy(() => import("./components/Produk/List"));
@@ -13,8 +17,11 @@ const ProdukEdit = React.lazy(() => import("./components/Produk/Edit"));
 const ReviewList = React.lazy(() => import("./components/Review/List"));
 const ReviewCreate = React.lazy(() => import("./components/Review/Create"));
 const ReviewEdit = React.lazy(() => import("./components/Review/Edit"));
+const Login = React.lazy(() => import("./components/Login"));
 
-function App() {
+const App = () => {
+  const [token, setToken] = useState(localStorage.getItem("authToken")); // Ambil token dari localStorage
+
   return (
     <Router>
       {/* Navbar */}
@@ -50,32 +57,68 @@ function App() {
                   Review
                 </NavLink>
               </li>
+              <li>
+                {token ? ( // Tampilkan Logout jika token ada
+                  <NavLink className="nav-link" to="/logout">
+                    Logout
+                  </NavLink>
+                ) : (
+                  <NavLink className="nav-link" to="/login">
+                    Login
+                  </NavLink>
+                )}
+              </li>
             </ul>
           </div>
         </div>
       </nav>
 
-      <Suspense fallback={<div>Loading.....</div>}>
+      <Suspense
+        fallback={
+          <div>
+            <Loader></Loader>
+          </div>
+        }>
         <Routes>
           <Route path="/" element={<Home></Home>}></Route>
-          <Route path="/produk" element={<ProdukList></ProdukList>}></Route>
+          <Route path="/login" element={<Login setToken={setToken} />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route
+            path="/produk"
+            element={
+              <ProtectedRoute>
+                <ProdukCreate />
+              </ProtectedRoute>
+            }></Route>
           <Route
             path="/produk/create"
             element={<ProdukCreate></ProdukCreate>}></Route>
           <Route
             path="/produk/edit/:id"
-            element={<ProdukEdit></ProdukEdit>}></Route>
+            element={
+              <ProtectedRoute>
+                <ProdukEdit />
+              </ProtectedRoute>
+            }></Route>
           <Route path="/review" element={<ReviewList></ReviewList>}></Route>
           <Route
             path="/review/create"
-            element={<ReviewCreate></ReviewCreate>}></Route>
+            element={
+              <ProtectedRoute>
+                <ReviewCreate />
+              </ProtectedRoute>
+            }></Route>
           <Route
             path="/review/edit/:id"
-            element={<ReviewEdit></ReviewEdit>}></Route>
+            element={
+              <ProtectedRoute>
+                <ReviewEdit />
+              </ProtectedRoute>
+            }></Route>
         </Routes>
       </Suspense>
     </Router>
   );
-}
+};
 
 export default App;
