@@ -82,7 +82,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home></Home>}></Route>
           <Route path="/login" element={<Login setToken={setToken} />} />
-          <Route path="/logout" element={<Logout />} />
+          <Route path="/logout" element={<Logout setToken={setToken} />} />
           <Route
             path="/produk"
             element={
